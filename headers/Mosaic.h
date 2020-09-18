@@ -2,6 +2,7 @@
 #define MOSAIC
 
 #include <iostream>
+#include "Tile.h"
 
 namespace Azul
 {
@@ -11,6 +12,8 @@ namespace Azul
             Mosaic();
             ~Mosaic();
         private:
+        Tile **wall;
+        Tile **patternLine;
     };
 };
 #endif
