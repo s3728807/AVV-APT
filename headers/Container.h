@@ -13,6 +13,12 @@ namespace Azul
             Container();
             ~Container();
 
+            std::vector<Tile> get();
+            void addTile(Tile);
+            void removeColor(Colors);
+            void removeFront();
+            bool empty();
+
         protected:
             std::vector<Tile> content;
     };
