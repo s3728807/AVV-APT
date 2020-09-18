@@ -22,6 +22,9 @@ namespace Azul
         public:
             Tile();
             ~Tile();
+
+            Colors getColor();
+            
         private:
             Colors color;
             bool placed;
