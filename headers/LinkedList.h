@@ -10,6 +10,20 @@ namespace Azul
     {
         public:
             Player *p;
+            LinkedList();
+            ~LinkedList();
+
+            int size();
+            void clear();
+            int get(int i);
+
+            void addFront(int data);
+            void addBack(int data);
+
+            void deleteFront();
+            void deleteBack();
+        private:
+            Player* head;
     };
 };
 
