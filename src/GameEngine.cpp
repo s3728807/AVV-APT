@@ -16,6 +16,55 @@ GameEngine::~GameEngine() {
 
 void GameEngine::run() {
 
+    ui->print("Starting a New Game");
+    ui->print("Enter a name for player 1");
+    std::string p1Name;
+    p1Name = ui->input();
+    ui->print("Enter a name for player 2");
+    std::string p2Name;
+    p2Name = ui->input();
+    ui->print("Player 1: " + p1Name + " and Player 2: " + p2Name + " ready to play.");
+    
+    bool gamePlaying = true;
+    
+    //temporary game board
+    std::string tempGameBoard;
+    tempGameBoard.append("Factories:\n");
+    tempGameBoard.append("O : F\n");
+    tempGameBoard.append("1: R Y Y U\n");
+    tempGameBoard.append("2: R B B B\n");
+    tempGameBoard.append("3: B L L L\n");
+    tempGameBoard.append("4: R R U U\n");
+    tempGameBoard.append("5: R Y B L\n");
+
+    std::string tempMosaic;
+    tempMosaic.append("1:     . || .....\n");
+    tempMosaic.append("2:    .. || .....\n");
+    tempMosaic.append("3:   ... || .....\n");
+    tempMosaic.append("4:  .... || .....\n");
+    tempMosaic.append("5: ..... || .....\n");
+    tempMosaic.append("broken:\n");
+
+
+
+    while (gamePlaying) {
+        ui->print("Turn for Player: " + p1Name);
+        ui->print(tempGameBoard);
+        ui->print("Mosaic for " + p1Name);
+        ui->print(tempMosaic);
+
+        ui->input();
+        ui->print("turn successful\n");
+
+        ui->print("Turn for Player: " + p2Name);
+        ui->print(tempGameBoard);
+        ui->print("Mosaic for " + p2Name);
+        ui->print(tempMosaic);
+        
+        ui->input();
+        ui->print("turn successful\n");
+    }
+
 };
 
 void GameEngine::menu() {
@@ -63,7 +112,7 @@ void GameEngine::menu() {
             std::cin.ignore();
         } 
         if (input == "1") {
-            //TODO new game
+            run();
         } else if (input == "2") {
             //TODO load game
         } else if (input == "3") {

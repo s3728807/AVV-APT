@@ -21,7 +21,7 @@ void UserInterface::print(std::string input) {
 
 std::string UserInterface::input() {
     std::string input;
-    std::cout << ">";
+    std::cout << "> ";
     getline(std::cin, input);
     return input;
 };
