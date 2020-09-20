@@ -22,7 +22,7 @@ void GameEngine::menu() {
     
     std::string menu;
     std::string studentInfo;
-    int selection;
+    std::string input;
     bool running;
     
     //create menu string
@@ -50,32 +50,30 @@ void GameEngine::menu() {
     studentInfo.append("Student ID: s3728807\n");
     studentInfo.append("Email: s3728807@student.rmit.edu.au\n");
 
-    //ui->print("Welcome to Azul!");
-    //ui->print("----------------");
-    //std::cout << "Welcome to Azul!" << std::endl;
-    //std::cout << "----------------" << std::endl;
+    ui->print("Welcome to Azul!");
+    ui->print("----------------");
 
     running = true;
     while (running) {
 
-        std::cout << menu << std::endl << "> ";
-        std::cin >> selection;
+        ui->print(menu);
+        input = ui->input();
         if(std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore();
         } 
-        if (selection == 1) {
+        if (input == "1") {
             //TODO new game
-        } else if (selection == 2) {
+        } else if (input == "2") {
             //TODO load game
-        } else if (selection == 3) {
-            std::cout << std::endl << "-----------------------------------" << std::endl;
-            std::cout << "Credits:\n" << studentInfo << std::endl;
-            std::cout << "-----------------------------------\n" << std::endl;
-        } else if (selection == 4) {
+        } else if (input == "3") {
+            ui->print("-----------------------------------");
+            ui->print("Credits:\n" + studentInfo);
+            ui->print("-----------------------------------");
+        } else if (input == "4") {
             running = false;
-        } else if (selection > 4) {
-            std::cout << "Invalid selection, please select a value from the menu." << std::endl;
+        } else {
+            ui->print("Invalid selection, please select a value from the menu.");
         }
 
     }
