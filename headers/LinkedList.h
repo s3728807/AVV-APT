@@ -9,21 +9,11 @@ namespace Azul
     class LinkedList
     {
         public:
-            Player *p;
             LinkedList();
             ~LinkedList();
 
-            int size();
-            void clear();
-            int get(int i);
-
-            void addFront(int data);
-            void addBack(int data);
-
-            void deleteFront();
-            void deleteBack();
-        private:
-            Player* head;
+            Player *head;
+            void addPlayer(Player*);
     };
 };
 
