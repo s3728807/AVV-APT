@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "GameEngine.cpp"
+#include "../headers/GameEngine.h"
 
 using namespace Azul;
 
