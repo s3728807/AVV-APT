@@ -12,6 +12,7 @@ namespace Azul
         public:
             Player();
             ~Player();
+            Player *next;
         private:
             std::string name;
             int points;

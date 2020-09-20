@@ -9,7 +9,11 @@ namespace Azul
     class LinkedList
     {
         public:
-            Player *p;
+            LinkedList();
+            ~LinkedList();
+
+            Player *head;
+            void addPlayer(Player*);
     };
 };
 

@@ -1,6 +1,8 @@
 #ifndef USERINTERFACE
 #define USERINTERFACE
 
+#include <iostream>
+
 namespace Azul
 {
     class UserInterface
