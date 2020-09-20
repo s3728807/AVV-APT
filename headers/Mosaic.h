@@ -13,7 +13,7 @@ namespace Azul
             ~Mosaic();
         private:
         Tile **wall;
-        Tile **patternLine;
+        Tile *patternLine;
     };
 };
 #endif
