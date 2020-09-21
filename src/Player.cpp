@@ -1,20 +1,9 @@
-#include <iostream>
-#include <vector>
-#include <string>
+#include "../headers/Player.h"
 
-using namespace std;
+using namespace Azul;
 
-class Player {
-  private:
-    string name;
+Player::Player()
+{}
 
-
-
-public :
-    string getName() {
-      return name;
-    }
-    void setName(string playername) {
-      name=playername;
-    }
-};
+Player::~Player()
+{}
