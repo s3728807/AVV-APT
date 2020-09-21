@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Tile.h"
+#include "PatternLine.h"
 
 namespace Azul
 {
@@ -13,14 +14,14 @@ namespace Azul
             ~Mosaic();
 
             Tile **getWall();
-            Tile *patternLine();
+            PatternLine *getPatternLine();
 
             void setWall(Tile**);
-            void setPatternLine(Tile*);
+            void setPatternLine(PatternLine*);
             
         private:
         Tile **wall;
-        Tile *patternLine;
+        PatternLine *patternLine;
     };
 };
 #endif
