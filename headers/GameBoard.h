@@ -19,17 +19,20 @@ namespace Azul
             BoxLid *getBox();
             Bag *getBag();
             Factory *getFactories();
+            int getRandom();
 
             void setPlayers(LinkedList*);
             void setBox(BoxLid*);
             void setBag(Bag*);
             void setFactories(Factory*);
+            void setRandom(int);
 
         private:
             LinkedList *playersList;
             BoxLid *box;
             Bag *bag;
             Factory *factories;
+            int random;
     };
 };
 #endif
