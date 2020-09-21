@@ -11,3 +11,22 @@ Mosaic::~Mosaic()
     delete[] patternLine;
 }
 
+void Mosaic::setPatternLine(PatternLine *p)
+{
+    patternLine = p;
+}
+
+void Mosaic::setWall(Tile **w)
+{
+    wall = w;
+}
+
+PatternLine *Mosaic::getPatternLine()
+{
+    return patternLine;
+}
+
+Tile **Mosaic::getWall()
+{
+    return wall;
+}
