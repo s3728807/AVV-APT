@@ -15,6 +15,16 @@ namespace Azul
             GameBoard();
             ~GameBoard();
 
+            LinkedList *getPlayers();
+            BoxLid *getBox();
+            Bag *getBag();
+            Factory *getFactories();
+
+            void setPlayers(LinkedList*);
+            void setBox(BoxLid*);
+            void setBag(Bag*);
+            void setFactories(Factory*);
+
         private:
             LinkedList *playersList;
             BoxLid *box;

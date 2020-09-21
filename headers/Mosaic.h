@@ -11,6 +11,13 @@ namespace Azul
         public:
             Mosaic();
             ~Mosaic();
+
+            Tile **getWall();
+            Tile *patternLine();
+
+            void setWall(Tile**);
+            void setPatternLine(Tile*);
+            
         private:
         Tile **wall;
         Tile *patternLine;
