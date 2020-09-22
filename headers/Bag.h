@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Container.h"
+#include "Tile.h"
 
 namespace Azul
 {
@@ -11,6 +12,9 @@ namespace Azul
         public:
             Bag();
             ~Bag();
+            
+            void fill();
+            void shuffle(int);
         private:
     };
 };
