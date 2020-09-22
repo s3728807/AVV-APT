@@ -3,14 +3,19 @@
 using namespace Azul;
 
 Container::Container()
-{};
+{}
 
 Container::~Container()
-{};
+{}
 
-std::vector<Tile> Container::get()
+std::vector<Tile> Container::getContent()
 {
     return content;
+}
+
+Tile Container::getFront()
+{
+    return content.at(0);
 }
 
 void Container::addTile(Tile t)
@@ -37,4 +42,9 @@ void Container::removeFront()
 bool Container::empty()
 {
     return content.empty();
+}
+
+void Container::setContent(std::vector<Tile> v)
+{
+    content = v;
 }

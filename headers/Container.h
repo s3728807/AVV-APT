@@ -13,7 +13,9 @@ namespace Azul
             Container();
             ~Container();
 
-            std::vector<Tile> get();
+            void setContent(std::vector<Tile>);
+            std::vector<Tile> getContent();
+            Tile getFront();
             void addTile(Tile);
             void removeColor(Colors);
             void removeFront();
