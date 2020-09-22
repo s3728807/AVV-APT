@@ -3,7 +3,19 @@
 using namespace Azul;
 
 Mosaic::Mosaic()
-{}
+{
+    wall = new Tile*[5];
+    for (int i = 0; i < 5; i++)
+    {
+        wall[i] = new Tile[5];
+        for (int j = 0; j < 5; j++)
+        {
+            wall[i][j] = Tile();
+        }
+    }
+
+    patternLine = new PatternLine[5];
+}
 
 Mosaic::~Mosaic()
 {

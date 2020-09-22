@@ -3,10 +3,18 @@
 using namespace Azul;
 
 Player::Player()
-{}
+{
+  name = "";
+  points = 0;
+  floor = new Floor();
+  mosaic = new Mosaic();
+}
 
 Player::~Player()
-{}
+{
+  delete floor;
+  delete mosaic;
+}
 
 void Player::setFloor(Floor *f)
 {
