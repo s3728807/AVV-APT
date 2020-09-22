@@ -8,6 +8,7 @@ Player::Player()
   points = 0;
   floor = new Floor();
   mosaic = new Mosaic();
+  turn = false;
 }
 
 Player::~Player()
@@ -36,6 +37,11 @@ void Player::setPoints(int p)
   points = p;
 }
 
+void Player::setTurn(bool t)
+{
+  turn = t;
+}
+
 Floor *Player::getFloor()
 {
   return floor;
@@ -54,4 +60,9 @@ std::string Player::getName()
 int Player::getPoints()
 {
   return points;
+}
+
+bool Player::isTurn()
+{
+  return turn;
 }
