@@ -48,3 +48,8 @@ void Container::setContent(std::vector<Tile> v)
 {
     content = v;
 }
+
+int Container::size()
+{
+    return content.size();
+}
