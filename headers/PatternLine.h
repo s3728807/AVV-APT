@@ -10,8 +10,15 @@ namespace Azul
     {
         public:
             PatternLine();
+            PatternLine(int);
             ~PatternLine();
+
+            void setMax(int);
+            int getMax();
+            bool isFull();
+
         private:
+            int max;
     };
 };
 #endif
