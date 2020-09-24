@@ -5,6 +5,8 @@
 #include "Tile.h"
 #include "PatternLine.h"
 
+#define GRID_SIZE 5
+
 namespace Azul
 {
     class Mosaic
@@ -18,6 +20,10 @@ namespace Azul
 
             void setWall(Tile**);
             void setPatternLine(PatternLine*);
+
+            void fillWall();
+            Colors nextColor(Colors);
+            void tileToPatternLine(int, int Colors);
             
         private:
         Tile **wall;
