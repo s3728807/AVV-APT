@@ -11,6 +11,8 @@ namespace Azul
         public:
             Factory();
             ~Factory();
+
+            bool missingTiles();
     };
 };
 #endif
