@@ -28,6 +28,10 @@ namespace Azul
             void setRandom(int);
 
             void newGame(std::string, std::string);
+            void refillBag();
+            bool emptyFactories();
+            bool emptyDump();
+            void refillFactories();
 
         private:
             LinkedList *playersList;

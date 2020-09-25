@@ -10,6 +10,7 @@ GameBoard::GameBoard()
     box = new BoxLid();
     factories = new Factory[6];
     bag = new Bag();
+    srand(time(NULL));
     random = rand()%INT32_MAX;
 }
 
@@ -30,6 +31,42 @@ void GameBoard::newGame(std::string n1, std::string n2)
     playersList->head->next->getMosaic()->fillWall();
     bag->fill();
     bag->shuffle(random);
+}
+
+void GameBoard::refillBag()
+{
+    for (Tile t:box->getContent())
+    {
+        bag->addTile(t);
+        box->removeFront();
+    }
+}
+
+void GameBoard::refillFactories()
+{
+    std::vector<Tile> b;
+    //iterate over all factories
+    for (int i = 1;i<6;i++)
+    {
+        //fill a factory with 4 tiles
+        while ((factories+i)->missingTiles())
+        {
+            //std::cout<<"missing Tiles"<<std::endl;
+            b = bag->getContent();
+            (factories+i)->addTile(b.front());
+            bag->removeFront();
+        }
+    }
+}
+
+bool GameBoard::emptyFactories()
+{
+    return (factories+1)->empty() && (factories+2)->empty() && (factories+3)->empty() && (factories+4)->empty() && (factories+5)->empty();
+}
+
+bool GameBoard::emptyDump()
+{
+    return factories->empty();
 }
 
 void GameBoard::setBag(Bag *b)
