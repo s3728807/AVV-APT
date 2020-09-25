@@ -16,6 +16,7 @@ namespace Azul
             void setMax(int);
             int getMax();
             bool isFull();
+            Tile at(int);
 
         private:
             int max;

@@ -27,3 +27,8 @@ bool PatternLine::isFull()
 {
     return content.size() == (unsigned)max;
 }
+
+Tile PatternLine::at(int i)
+{
+    return content.at(i);
+}
