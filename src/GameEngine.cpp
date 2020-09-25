@@ -20,49 +20,77 @@ void GameEngine::run() {
     ui->print("Enter a name for player 1");
     std::string p1Name;
     p1Name = ui->input();
+
     ui->print("Enter a name for player 2");
     std::string p2Name;
     p2Name = ui->input();
+
+    board->newGame(p1Name, p2Name);
+
     ui->print("Player 1: " + p1Name + " and Player 2: " + p2Name + " ready to play.");
     
     bool gamePlaying = true;
-    
-    //temporary game board
-    std::string tempGameBoard;
-    tempGameBoard.append("Factories:\n");
-    tempGameBoard.append("O : F\n");
-    tempGameBoard.append("1: R Y Y U\n");
-    tempGameBoard.append("2: R B B B\n");
-    tempGameBoard.append("3: B L L L\n");
-    tempGameBoard.append("4: R R U U\n");
-    tempGameBoard.append("5: R Y B L\n");
 
-    std::string tempMosaic;
-    tempMosaic.append("1:     . || .....\n");
-    tempMosaic.append("2:    .. || .....\n");
-    tempMosaic.append("3:   ... || .....\n");
-    tempMosaic.append("4:  .... || .....\n");
-    tempMosaic.append("5: ..... || .....\n");
-    tempMosaic.append("broken:\n");
-
-
+    std::string input;
+    std::string print;
+    std::string output;
 
     while (gamePlaying) {
-        ui->print("Turn for Player: " + p1Name);
-        ui->print(tempGameBoard);
-        ui->print("Mosaic for " + p1Name);
-        ui->print(tempMosaic);
+        if (board->getBag()->empty())
+        {
+            //ui->print("empty bag");
+            board->refillBag();
+        }
 
-        ui->input();
-        ui->print("turn successful\n");
+        if (board->emptyFactories())
+        {
+            //ui->print("empty factories");
+            board->refillFactories();
+        }
 
-        ui->print("Turn for Player: " + p2Name);
-        ui->print(tempGameBoard);
-        ui->print("Mosaic for " + p2Name);
-        ui->print(tempMosaic);
-        
-        ui->input();
-        ui->print("turn successful\n");
+        ui->print("");
+        ui->print("=== Start Round ===");
+
+        //checks to see if factories and dump are empty
+        while(!board->emptyFactories() || !board->emptyDump())
+        {
+            //find the right players turn
+            while(!board->getPlayers()->head->isTurn())
+            {
+                board->getPlayers()->head = board->getPlayers()->head->next;
+            }
+
+            ui->print("");
+            ui->print("TURN FOR PLAYER: "+board->getPlayers()->head->getName());
+            ui->print("Factories: ");
+
+            for (int x = 0; x<6; x++)
+            {
+                output = std::to_string(x).append(": ");
+                output.append(ui->printFactory((board->getFactories()+x)->getContent()));
+                ui->print(output);
+            }
+            
+
+            ui->print("");
+            output = "Mosaic for ";
+            ui->print(output.append(board->getPlayers()->head->getName()).append(":"));
+
+            for (int x = 0; x<5; x++)
+            {
+                output = std::to_string(x+1).append(": ");
+                output.append(ui->printPatternLine(board->getPlayers()->head->getMosaic()->getPatternLine()+x));
+                output.append(" || ");
+                output.append(ui->printWall(board->getPlayers()->head->getMosaic()->getWall()[x]));
+                ui->print(output);
+            }
+
+            output = "Broken: ";
+            output.append(ui->printFactory(board->getPlayers()->head->getFloor()->getContent()));
+            ui->print(output);
+
+            ui->input();
+        }
     }
 
 };
