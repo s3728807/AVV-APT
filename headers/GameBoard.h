@@ -27,6 +27,8 @@ namespace Azul
             void setFactories(Factory*);
             void setRandom(int);
 
+            void newGame(std::string, std::string);
+
         private:
             LinkedList *playersList;
             BoxLid *box;

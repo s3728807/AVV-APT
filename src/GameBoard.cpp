@@ -5,9 +5,12 @@ using namespace Azul;
 GameBoard::GameBoard()
 {
     playersList = new LinkedList();
+    playersList->addPlayer(new Player());
+    playersList->addPlayer(new Player());
     box = new BoxLid();
     factories = new Factory[6];
     bag = new Bag();
+    random = rand()%INT32_MAX;
 }
 
 GameBoard::~GameBoard()
@@ -16,6 +19,17 @@ GameBoard::~GameBoard()
     delete bag;
     delete playersList;
     delete[] factories;
+}
+
+void GameBoard::newGame(std::string n1, std::string n2)
+{
+    playersList->head->setTurn(true);
+    playersList->head->setName(n1);
+    playersList->head->getMosaic()->fillWall();
+    playersList->head->next->setName(n2);
+    playersList->head->next->getMosaic()->fillWall();
+    bag->fill();
+    bag->shuffle(random);
 }
 
 void GameBoard::setBag(Bag *b)
