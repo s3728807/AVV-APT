@@ -14,7 +14,8 @@ namespace Azul
         BLACK,
         YELLOW,
         DARKBLUE,
-        UNDEF
+        UNDEF,
+        F
     };
 
     class Tile
