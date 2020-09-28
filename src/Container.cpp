@@ -53,3 +53,17 @@ int Container::size()
 {
     return content.size();
 }
+
+int Container::findColor(Colors c)
+{
+    int count = 0;
+    for (unsigned int x = 0; x<content.size();x++)
+    {
+        if (content.at(x).getColor()==c)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}

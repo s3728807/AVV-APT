@@ -21,6 +21,7 @@ namespace Azul
             void removeFront();
             bool empty();
             int size();
+            int findColor(Colors);
 
         protected:
             std::vector<Tile> content;
