@@ -6,7 +6,6 @@ GameEngine::GameEngine()
 {
     board = new GameBoard();
     ui = new UserInterface();
-    
 };
 
 GameEngine::~GameEngine() {
@@ -16,37 +15,16 @@ GameEngine::~GameEngine() {
 
 void GameEngine::run() {
 
-    ui->print("Starting a New Game");
-    ui->print("Enter a name for player 1");
-    std::string p1Name;
-    p1Name = ui->input();
+    introducePlayers();
 
-    ui->print("Enter a name for player 2");
-    std::string p2Name;
-    p2Name = ui->input();
+    for (int i = 1; i < 6; i++)
+    {
+        //checks if bag is empty
+        bagCheck();
 
-    board->newGame(p1Name, p2Name);
+        //checks if factories are empty
+        factoryCheck();
 
-    ui->print("Player 1: " + p1Name + " and Player 2: " + p2Name + " ready to play.");
-    
-    bool gamePlaying = true;
-
-    std::string input;
-    std::string print;
-    std::string output;
-
-    while (gamePlaying) {
-        if (board->getBag()->empty())
-        {
-            //ui->print("empty bag");
-            board->refillBag();
-        }
-
-        if (board->emptyFactories())
-        {
-            //ui->print("empty factories");
-            board->refillFactories();
-        }
 
         ui->print("");
         ui->print("=== Start Round ===");
@@ -54,46 +32,203 @@ void GameEngine::run() {
         //checks to see if factories and dump are empty
         while(!board->emptyFactories() || !board->emptyDump())
         {
-            //find the right players turn
-            while(!board->getPlayers()->head->isTurn())
-            {
-                board->getPlayers()->head = board->getPlayers()->head->next;
-            }
+            findPlayerTurn();
 
-            ui->print("");
-            ui->print("TURN FOR PLAYER: "+board->getPlayers()->head->getName());
-            ui->print("Factories: ");
+            printFactory();
 
-            for (int x = 0; x<6; x++)
-            {
-                output = std::to_string(x).append(": ");
-                output.append(ui->printFactory((board->getFactories()+x)->getContent()));
-                ui->print(output);
-            }
-            
+            printMosaic();
 
-            ui->print("");
-            output = "Mosaic for ";
-            ui->print(output.append(board->getPlayers()->head->getName()).append(":"));
+            while (!playerAction())
+            {}
 
-            for (int x = 0; x<5; x++)
-            {
-                output = std::to_string(x+1).append(": ");
-                output.append(ui->printPatternLine(board->getPlayers()->head->getMosaic()->getPatternLine()+x));
-                output.append(" || ");
-                output.append(ui->printWall(board->getPlayers()->head->getMosaic()->getWall()[x]));
-                ui->print(output);
-            }
+            board->getPlayers()->head->setTurn(false);
+            board->getPlayers()->head->next->setTurn(true);
+        }//a round
+    }//entire game
 
-            output = "Broken: ";
-            output.append(ui->printFactory(board->getPlayers()->head->getFloor()->getContent()));
-            ui->print(output);
+}
 
-            ui->input();
+bool GameEngine::playerAction()
+{
+    bool ret = true;
+    std::string action = ui->input();
+    std::vector<std::string> input;
+    input = parseLine(action, ' ');
+
+    if ((input.at(0).compare("turn")) == 0)
+    {
+        if (validTurn(std::stoi(input.at(1)), input.at(2)[0], std::stoi(input.at(3))))
+        {
+            board->factory2Mosaic(std::stoi(input.at(1)), char2Col(input.at(2)[0]), std::stoi(input.at(3)));
         }
+        else
+        {
+            ret = false;
+        }
+        
+    }
+    else if ((input.at(0).compare("save")) == 0)
+    {
+        //TODO
+    }
+    else
+    {
+        ui->print("Invalid input");
+        ret = false;
     }
 
-};
+    return ret;
+}
+
+bool GameEngine::validTurn(int f, char c, int p)
+{
+    bool ret = true;
+    if (f < 0 || f > 5)
+    {
+        ui->print("That is not a valid Factory");
+        ret = false;
+    }
+    else if (p < 1 || p > 5)
+    {
+        ui->print("That is not a valid Row");
+        ret = false;
+    }
+    else if (!validColor(c))
+    {
+        ui->print("That is not a valid Color");
+        ret = false;
+    }
+    else if ((board->getFactories()+f)->findColor(char2Col(c)) == 0)
+    {
+        ui->print("That color is not in the Factory");
+        ret = false;
+    }
+    return ret;
+}
+
+bool GameEngine::validColor(char c)
+{
+    return ::tolower(c) == 'r' || ::tolower(c) == 'b' || ::tolower(c) == 'u' || ::tolower(c) == 'l' || ::tolower(c) == 'y';
+}
+
+Colors GameEngine::char2Col(char c)
+{
+    Colors color = Colors();
+    if (::tolower(c) == 'r')
+    {
+        color = RED;
+    }
+    else if (::tolower(c) == 'b')
+    {
+        color = DARKBLUE;
+    }
+    else if (::tolower(c) == 'u')
+    {
+        color = BLACK;
+    }
+    else if (::tolower(c) == 'l')
+    {
+        color = LIGHTBLUE;
+    }
+    else if (::tolower(c) == 'y')
+    {
+        color = YELLOW;
+    }
+
+    return color;
+}
+
+void GameEngine::introducePlayers()
+{
+    ui->print("Starting a New Game");
+    ui->print("Enter a name for player 1");
+    std::string p1Name;
+    p1Name = ui->input();
+
+    bool sameName = true;
+    std::string p2Name;
+    while (sameName)
+    {
+        ui->print("Enter a name for player 2");
+        p2Name = ui->input();
+        if (p2Name.compare(p1Name) == 0)
+        {
+            ui->print("You can't have the same name");
+        }
+        else
+        {
+            sameName = false;
+        }
+        
+    }
+
+    board->newGame(p1Name, p2Name);
+
+    ui->print("Player 1: " + p1Name + " and Player 2: " + p2Name + " ready to play.");
+}
+
+void GameEngine::findPlayerTurn()
+{
+    while(!board->getPlayers()->head->isTurn())
+    {
+        board->getPlayers()->head = board->getPlayers()->head->next;
+    }
+}
+
+void GameEngine::bagCheck()
+{
+    if (board->getBag()->empty())
+    {
+        //ui->print("empty bag");
+        board->refillBag();
+    }
+}
+
+void GameEngine::factoryCheck()
+{
+    if (board->emptyFactories() && board->emptyDump())
+    {
+        //ui->print("empty factories");
+        board->refillFactories();
+        board->addFirstTile();
+    }
+}
+
+void GameEngine::printFactory()
+{
+    std::string output;
+    ui->print("");
+    ui->print("TURN FOR PLAYER: "+board->getPlayers()->head->getName());
+    ui->print("Factories: ");
+
+    for (int x = 0; x<6; x++)
+    {
+        output = std::to_string(x).append(": ");
+        output.append(ui->printFactory((board->getFactories()+x)->getContent()));
+        ui->print(output);
+    }
+}
+
+void GameEngine::printMosaic()
+{
+    std::string output;
+    ui->print("");
+    output = "Mosaic for ";
+    ui->print(output.append(board->getPlayers()->head->getName()).append(":"));
+
+    for (int x = 0; x<5; x++)
+    {
+        output = std::to_string(x+1).append(": ");
+        output.append(ui->printPatternLine(board->getPlayers()->head->getMosaic()->getPatternLine()+x));
+        output.append(" || ");
+        output.append(ui->printWall(board->getPlayers()->head->getMosaic()->getWall()[x]));
+        ui->print(output);
+    }
+
+    output = "Broken: ";
+    output.append(ui->printFactory(board->getPlayers()->head->getFloor()->getContent()));
+    ui->print(output);
+}
 
 void GameEngine::menu() {
     
@@ -155,4 +290,19 @@ void GameEngine::menu() {
 
     }
     
-};
+}
+
+std::vector<std::string> GameEngine::parseLine(std::string str, char delim) {
+    std::vector<std::string> res;
+    std::stringstream s(str);
+
+    while(s.good()) {
+        std::string sub;
+        getline(s, sub, delim);
+
+        if (sub.size() > 0)
+            res.push_back(sub);
+    }
+
+    return res;
+}
