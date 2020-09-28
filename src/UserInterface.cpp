@@ -49,6 +49,10 @@ std::string UserInterface::printFactory(std::vector<Tile> v)
         {
             str.append("Y ");
         }
+        else if (t.getColor() == F)
+        {
+            str.append("F ");
+        }
     }
 
     return str;
