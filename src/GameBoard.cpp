@@ -7,7 +7,6 @@ GameBoard::GameBoard()
     playersList = new LinkedList();
     playersList->addPlayer(new Player());
     playersList->addPlayer(new Player());
-    box = new BoxLid();
     factories = new Factory[6];
     bag = new Bag();
     srand(time(NULL));
@@ -16,10 +15,14 @@ GameBoard::GameBoard()
 
 GameBoard::~GameBoard()
 {
-    delete box;
     delete bag;
     delete playersList;
     delete[] factories;
+}
+
+void GameBoard::factory2Mosaic(int f, Colors c, int p)
+{
+    
 }
 
 void GameBoard::newGame(std::string n1, std::string n2)
@@ -33,13 +36,14 @@ void GameBoard::newGame(std::string n1, std::string n2)
     bag->shuffle(random);
 }
 
+void GameBoard::addFirstTile()
+{
+    factories->addTile(Tile(F));
+}
+
 void GameBoard::refillBag()
 {
-    for (Tile t:box->getContent())
-    {
-        bag->addTile(t);
-        box->removeFront();
-    }
+    
 }
 
 void GameBoard::refillFactories()
@@ -74,11 +78,6 @@ void GameBoard::setBag(Bag *b)
     bag = b;
 }
 
-void GameBoard::setBox(BoxLid *b)
-{
-    box = b;
-}
-
 void GameBoard::setFactories(Factory *f)
 {
     factories = f;
@@ -97,11 +96,6 @@ void GameBoard::setRandom(int r)
 Bag *GameBoard::getBag()
 {
     return bag;
-}
-
-BoxLid *GameBoard::getBox()
-{
-    return box;
 }
 
 Factory *GameBoard::getFactories()

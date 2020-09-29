@@ -4,7 +4,6 @@
 #include <iostream>
 #include "LinkedList.h"
 #include "Bag.h"
-#include "BoxLid.h"
 #include "Factory.h"
 
 namespace Azul
@@ -16,13 +15,11 @@ namespace Azul
             ~GameBoard();
 
             LinkedList *getPlayers();
-            BoxLid *getBox();
             Bag *getBag();
             Factory *getFactories();
             int getRandom();
 
             void setPlayers(LinkedList*);
-            void setBox(BoxLid*);
             void setBag(Bag*);
             void setFactories(Factory*);
             void setRandom(int);
@@ -32,10 +29,11 @@ namespace Azul
             bool emptyFactories();
             bool emptyDump();
             void refillFactories();
+            void addFirstTile();
+            void factory2Mosaic(int, Colors, int);
 
         private:
             LinkedList *playersList;
-            BoxLid *box;
             Bag *bag;
             Factory *factories;
             int random;
