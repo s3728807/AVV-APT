@@ -20,9 +20,58 @@ GameBoard::~GameBoard()
     delete[] factories;
 }
 
-void GameBoard::factory2Mosaic(int f, Colors c, int p)
+void GameBoard::factory2Mosaic(int f, Colors c, int patternLine)
 {
+    //std::cout<<"factory2Mosaic"<<std::endl;
+    int p = patternLine - 1;
+    for (Tile t:(factories+f)->getContent())
+    {
+        //std::cout<<"for factory content"<<std::endl;
+        if (t.getColor() == c || t.getColor() == F)
+        {
+            //std::cout<<"if color"<<std::endl;
+            //if patternline is full or if tile is First then put in floor
+            if ((playersList->head->getMosaic()->getPatternLine()+p)->isFull() || t.getColor() == F)
+            {
+                //std::cout<<"add to floor"<<std::endl;
+                playersList->head->getFloor()->addTile(t);
+            }
+            //else put in patternline
+            else
+            {
+                //std::cout<<"add to patternline"<<std::endl;
+                playersList->head->getMosaic()->tileToPatternLine(p, t);
+            }
+        }
+    }
+    //std::cout<<"remove color"<<std::endl;
+    (factories+f)->removeColor(c);
+    if (f == 0 && factories->findColor(F) == 1)
+    {
+        factories->removeColor(F);
+    }
     
+    factory2Dump(f);
+    //std::cout<<"finished moving tiles"<<std::endl;
+}
+
+void GameBoard::factory2Dump(int f)
+{
+    if (f != 0)
+    {        
+        for (Tile t:(factories+f)->getContent())
+        {
+            //std::cout<<"move to dump"<<std::endl;
+            factories->addTile(t);
+        }
+
+        while (!(factories+f)->empty())
+        {
+            //std::cout<<"removed tiles"<<std::endl;
+            //std::cout<<(factories+f)->size()<<std::endl;
+            (factories+f)->removeFront();
+        }
+    }
 }
 
 void GameBoard::newGame(std::string n1, std::string n2)
@@ -65,6 +114,7 @@ void GameBoard::refillFactories()
 
 bool GameBoard::emptyFactories()
 {
+    //std::cout<<"emptyFact"<<std::endl;
     return (factories+1)->empty() && (factories+2)->empty() && (factories+3)->empty() && (factories+4)->empty() && (factories+5)->empty();
 }
 

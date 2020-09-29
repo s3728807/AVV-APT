@@ -32,6 +32,14 @@ void Container::removeColor(Colors c)
             content.erase(content.begin()+x);
         }
     }
+
+    for (unsigned int x = 0; x<content.size();x++)
+    {
+        if (content.at(x).getColor()==c)
+        {
+            content.erase(content.begin()+x);
+        }
+    }
 }
 
 void Container::removeFront()

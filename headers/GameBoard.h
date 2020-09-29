@@ -31,6 +31,7 @@ namespace Azul
             void refillFactories();
             void addFirstTile();
             void factory2Mosaic(int, Colors, int);
+            void factory2Dump(int);
 
         private:
             LinkedList *playersList;

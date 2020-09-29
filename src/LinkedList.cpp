@@ -17,6 +17,7 @@ void LinkedList::addPlayer(Player* p)
     else
     {
         head->next = p;
+        p->next = head;
     }
     
 }

@@ -75,23 +75,23 @@ std::string UserInterface::printPatternLine(PatternLine* p)
             {
                 str.append(".");
             }
-            else if (p->at(i).getColor() == RED)
+            else if (p->at(i-1).getColor() == RED)
             {
                 str.append("R");
             }
-            else if ((p->at(i).getColor() == YELLOW))
+            else if ((p->at(i-1).getColor() == YELLOW))
             {
                 str.append("Y");
             }
-            else if ((p->at(i).getColor() == BLACK))
+            else if ((p->at(i-1).getColor() == BLACK))
             {
                 str.append("U");
             }
-            else if ((p->at(i).getColor() == DARKBLUE))
+            else if ((p->at(i-1).getColor() == DARKBLUE))
             {
                 str.append("B");
             }
-            else if ((p->at(i).getColor() == LIGHTBLUE))
+            else if ((p->at(i-1).getColor() == LIGHTBLUE))
             {
                 str.append("L");
             }

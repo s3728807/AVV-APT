@@ -27,6 +27,11 @@ Mosaic::~Mosaic()
     delete[] patternLine;
 }
 
+void Mosaic::tileToPatternLine(int p, Tile t)
+{
+    patternLine[p].addTile(t);
+}
+
 void Mosaic::fillWall()
 {
     Colors c = DARKBLUE;

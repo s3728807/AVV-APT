@@ -32,6 +32,7 @@ void GameEngine::run() {
         //checks to see if factories and dump are empty
         while(!board->emptyFactories() || !board->emptyDump())
         {
+            //std::cout<<"start round"<<std::endl;
             findPlayerTurn();
 
             printFactory();
@@ -40,9 +41,10 @@ void GameEngine::run() {
 
             while (!playerAction())
             {}
-
+            //std::cout<<"end of round"<<std::endl;
             board->getPlayers()->head->setTurn(false);
             board->getPlayers()->head->next->setTurn(true);
+            //std::cout<<"end of player swap"<<std::endl;
         }//a round
     }//entire game
 
