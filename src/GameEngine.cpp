@@ -16,7 +16,6 @@ GameEngine::~GameEngine() {
 };
 
 void GameEngine::run() {
-
     introducePlayers();
 
     while(roundCounter < 6)
@@ -174,6 +173,10 @@ Colors GameEngine::char2Col(char c)
 
 void GameEngine::introducePlayers()
 {
+    board = new GameBoard();
+    roundCounter = 1;
+    hasQuit = false;
+    
     ui->print("Starting a New Game");
     ui->print("Enter a name for player 1");
     std::string p1Name;
