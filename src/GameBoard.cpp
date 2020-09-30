@@ -20,6 +20,35 @@ GameBoard::~GameBoard()
     delete[] factories;
 }
 
+void GameBoard::clearFloors()
+{
+    for (int i = 0; i < 2; i++)
+    {
+        playersList->head->subtractPoints(playersList->head->getFloor()->size());
+        playersList->head->getFloor()->emptyContainer();
+        playersList->head = playersList->head->next;
+    } 
+}
+
+void GameBoard::patternLine2Wall()
+{
+    for (int i = 0; i < 2; i++)
+    {
+        for (int p = 0; p < 5; p++)
+        {
+            if ((playersList->head->getMosaic()->getPatternLine()+p)->isFull())
+            {
+                //std::cout<<playersList->head->getName()<<"row: "<<p<<std::endl;
+                //std::cout<<"Color: "<<(playersList->head->getMosaic()->getPatternLine()+p)->getFront().getColor()<<std::endl;
+                playersList->head->getMosaic()->tile2Wall(p, (playersList->head->getMosaic()->getPatternLine()+p)->getFront().getColor());
+                (playersList->head->getMosaic()->getPatternLine()+p)->removeFront();
+                refillBag((playersList->head->getMosaic()->getPatternLine()+p));
+            }
+        }
+        playersList->head = playersList->head->next;
+    }  
+}
+
 void GameBoard::factory2Mosaic(int f, Colors c, int patternLine)
 {
     //std::cout<<"factory2Mosaic"<<std::endl;
@@ -30,17 +59,20 @@ void GameBoard::factory2Mosaic(int f, Colors c, int patternLine)
         if (t.getColor() == c || t.getColor() == F)
         {
             //std::cout<<"if color"<<std::endl;
-            //if patternline is full or if tile is First then put in floor
-            if ((playersList->head->getMosaic()->getPatternLine()+p)->isFull() || t.getColor() == F)
-            {
-                //std::cout<<"add to floor"<<std::endl;
-                playersList->head->getFloor()->addTile(t);
-            }
-            //else put in patternline
-            else
+            //if patternline is empty or if the tile matches the colour in the patternline and its not the first tile && is not full
+            if(((playersList->head->getMosaic()->getPatternLine()+p)->empty() || (playersList->head->getMosaic()->getPatternLine()+p)->matchesTile(t)) && t.getColor() != F && !(playersList->head->getMosaic()->getPatternLine()+p)->isFull())
             {
                 //std::cout<<"add to patternline"<<std::endl;
                 playersList->head->getMosaic()->tileToPatternLine(p, t);
+            }
+            else
+            {
+                std::cout<<"add to floor"<<std::endl;
+                playersList->head->getFloor()->addTile(t);
+                if (t.getColor() == F)
+                {
+                    playersList->head->setFirstDump(true);
+                }
             }
         }
     }
@@ -65,12 +97,7 @@ void GameBoard::factory2Dump(int f)
             factories->addTile(t);
         }
 
-        while (!(factories+f)->empty())
-        {
-            //std::cout<<"removed tiles"<<std::endl;
-            //std::cout<<(factories+f)->size()<<std::endl;
-            (factories+f)->removeFront();
-        }
+        (factories+f)->emptyContainer();
     }
 }
 
@@ -90,9 +117,13 @@ void GameBoard::addFirstTile()
     factories->addTile(Tile(F));
 }
 
-void GameBoard::refillBag()
+void GameBoard::refillBag(Container *content)
 {
-    
+    for (Tile t:content->getContent())
+    {
+        bag->addTile(t);
+    }
+    content->emptyContainer();
 }
 
 void GameBoard::refillFactories()

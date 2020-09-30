@@ -25,13 +25,15 @@ namespace Azul
             void setRandom(int);
 
             void newGame(std::string, std::string);
-            void refillBag();
+            void refillBag(Container*);
             bool emptyFactories();
             bool emptyDump();
             void refillFactories();
             void addFirstTile();
             void factory2Mosaic(int, Colors, int);
             void factory2Dump(int);
+            void patternLine2Wall();
+            void clearFloors();
 
         private:
             LinkedList *playersList;
