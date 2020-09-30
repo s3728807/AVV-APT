@@ -13,6 +13,11 @@ PatternLine::PatternLine(int s)
 PatternLine::~PatternLine()
 {}
 
+bool PatternLine::matchesTile(Tile t)
+{
+    return t.getColor() == getFront().getColor();
+}
+
 void PatternLine::setMax(int i)
 {
     max = i;

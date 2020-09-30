@@ -17,6 +17,7 @@ namespace Azul
             int getMax();
             bool isFull();
             Tile at(int);
+            bool matchesTile(Tile);
 
         private:
             int max;
