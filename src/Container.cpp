@@ -13,6 +13,14 @@ std::vector<Tile> Container::getContent()
     return content;
 }
 
+void Container::emptyContainer()
+{
+    while (!empty())
+    {
+        removeFront();
+    }
+}
+
 Tile Container::getFront()
 {
     return content.at(0);

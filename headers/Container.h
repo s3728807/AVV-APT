@@ -20,6 +20,7 @@ namespace Azul
             void removeColor(Colors);
             void removeFront();
             bool empty();
+            void emptyContainer();
             int size();
             int findColor(Colors);
 
