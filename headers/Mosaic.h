@@ -24,6 +24,7 @@ namespace Azul
             void fillWall();
             Colors nextColor(Colors);
             void tileToPatternLine(int, Tile);
+            void tile2Wall(int, Colors);
             
         private:
         Tile **wall;

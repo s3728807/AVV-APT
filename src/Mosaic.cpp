@@ -27,6 +27,18 @@ Mosaic::~Mosaic()
     delete[] patternLine;
 }
 
+void Mosaic::tile2Wall(int r, Colors color)
+{
+
+    for (int c = 0; c < 5; c++)
+    {
+        if (wall[r][c].getColor() == color)
+        {
+            wall[r][c].setPlaced(true);
+        }
+    }
+}
+
 void Mosaic::tileToPatternLine(int p, Tile t)
 {
     patternLine[p].addTile(t);
