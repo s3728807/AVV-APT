@@ -19,12 +19,16 @@ namespace Azul
             Floor *getFloor();
             Mosaic *getMosaic();
             bool isTurn();
+            bool tookFirstDump();
             
             void setName(std::string);
             void setPoints(int);
             void setFloor(Floor*);
             void setMosaic(Mosaic*);
             void setTurn(bool);
+            void setFirstDump(bool);
+            void addPoints(int);
+            void subtractPoints(int);
             
         private:
             std::string name;
@@ -32,6 +36,7 @@ namespace Azul
             Floor *floor;
             Mosaic *mosaic;
             bool turn;
+            bool firstDump;
 
     };
 };

@@ -17,9 +17,24 @@ Player::~Player()
   delete mosaic;
 }
 
+void Player::addPoints(int p)
+{
+  points = points + p;
+}
+
+void Player::subtractPoints(int p)
+{
+  points = points - p;
+}
+
 void Player::setFloor(Floor *f)
 {
   floor = f;
+}
+
+void Player::setFirstDump(bool b)
+{
+  firstDump = b;
 }
 
 void Player::setMosaic(Mosaic *m)
@@ -65,4 +80,9 @@ int Player::getPoints()
 bool Player::isTurn()
 {
   return turn;
+}
+
+bool Player::tookFirstDump()
+{
+  return firstDump;
 }
