@@ -28,7 +28,7 @@ void Bag::shuffle(int s)
     for (int i = 0; i < total; i++)
     {
         Tile temp = content.at(i);
-        Tile& a = content.at(1);
+        Tile& a = content.at(i);
         Tile& b = content.at(rand()%(total-1));
         a = b;
         b = temp;
