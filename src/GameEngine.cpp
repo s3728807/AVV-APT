@@ -6,6 +6,8 @@ GameEngine::GameEngine()
 {
     board = new GameBoard();
     ui = new UserInterface();
+    roundCounter = 1;
+    hasQuit = false;
 };
 
 GameEngine::~GameEngine() {
@@ -17,20 +19,19 @@ void GameEngine::run() {
 
     introducePlayers();
 
-    for (int i = 1; i < 6; i++)
+    while(roundCounter < 6)
     {
-        //checks if bag is empty
-        bagCheck();
-
         //checks if factories are empty
         factoryCheck();
 
-
+        
         ui->print("");
-        ui->print("=== Start Round ===");
+        std::string output = "=== Start Round ";
+        output.append(std::to_string(roundCounter)).append(" ===");
+        ui->print(output);
 
-        //checks to see if factories and dump are empty
-        while(!board->emptyFactories() || !board->emptyDump())
+        //checks to see if factories and dump are empty and a player has not quit
+        while((!board->emptyFactories() || !board->emptyDump()) && !hasQuit)
         {
             //std::cout<<"start round"<<std::endl;
             findPlayerTurn();
@@ -46,37 +47,68 @@ void GameEngine::run() {
             board->getPlayers()->head->next->setTurn(true);
             //std::cout<<"end of player swap"<<std::endl;
         }//a round
+
+        endOfRound();
     }//entire game
 
 }
 
+void GameEngine::endOfRound()
+{
+    ui->print("");
+    ui->print("=== END OF ROUND ===");
+
+    //assigns player who took First tile to have their turn at the start of the next round
+    board->getPlayers()->head->setTurn(board->getPlayers()->head->tookFirstDump());
+    board->getPlayers()->head->next->setTurn(board->getPlayers()->head->next->tookFirstDump());
+    board->getPlayers()->head->setFirstDump(false);
+    board->getPlayers()->head->next->setFirstDump(false);
+
+    //moves tiles into wall if patternline is complete
+    board->patternLine2Wall();
+
+    board->clearFloors();
+    roundCounter++; 
+}
+
 bool GameEngine::playerAction()
 {
-    bool ret = true;
+    bool ret = false;
     std::string action = ui->input();
     std::vector<std::string> input;
     input = parseLine(action, ' ');
 
     if ((input.at(0).compare("turn")) == 0)
     {
-        if (validTurn(std::stoi(input.at(1)), input.at(2)[0], std::stoi(input.at(3))))
+        try 
         {
-            board->factory2Mosaic(std::stoi(input.at(1)), char2Col(input.at(2)[0]), std::stoi(input.at(3)));
+            if ( validTurn(std::stoi(input.at(1)), input.at(2)[0], std::stoi(input.at(3))) )
+            {
+                board->factory2Mosaic(std::stoi(input.at(1)), char2Col(input.at(2)[0]), std::stoi(input.at(3)));
+                ret = true;
+            }
         }
-        else
+        catch (const std::logic_error &e)
         {
-            ret = false;
+            ui->print("Factory and Row must be int");
         }
+
         
     }
     else if ((input.at(0).compare("save")) == 0)
     {
         //TODO
     }
+    else if ((input.at(0).compare("quit")) == 0)
+    {
+        //TODO
+        roundCounter = 6;
+        hasQuit = true;
+        ret = true;
+    }
     else
     {
         ui->print("Invalid input");
-        ret = false;
     }
 
     return ret;
@@ -177,15 +209,6 @@ void GameEngine::findPlayerTurn()
     }
 }
 
-void GameEngine::bagCheck()
-{
-    if (board->getBag()->empty())
-    {
-        //ui->print("empty bag");
-        board->refillBag();
-    }
-}
-
 void GameEngine::factoryCheck()
 {
     if (board->emptyFactories() && board->emptyDump())
@@ -201,6 +224,9 @@ void GameEngine::printFactory()
     std::string output;
     ui->print("");
     ui->print("TURN FOR PLAYER: "+board->getPlayers()->head->getName());
+    output = "Points: ";
+    output.append(std::to_string(board->getPlayers()->head->getPoints()));
+    ui->print(output);
     ui->print("Factories: ");
 
     for (int x = 0; x<6; x++)
