@@ -32,6 +32,7 @@ namespace Azul
             void factory2Dump(int);
             void patternLine2Wall();
             void clearFloors();
+            int penalty();
 
         private:
             LinkedList *playersList;

@@ -17,7 +17,6 @@ GameEngine::~GameEngine() {
 
 void GameEngine::run() {
     introducePlayers();
-
     while(roundCounter < 6)
     {
         //checks if factories are empty
@@ -184,6 +183,7 @@ bool GameEngine::save(std::string filename)
     file.open( filename, std::ofstream::trunc );
     if ( file.is_open() )
     {
+        file << tileBag + '\n';
         for (std::string s:gameTurns)
         {
             file << s + '\n';
@@ -282,6 +282,8 @@ void GameEngine::introducePlayers()
     gameTurns.push_back(p1Name);
     gameTurns.push_back(p2Name);
     board->newGame(p1Name, p2Name);
+    
+    tileBag = ui->printFactory(board->getBag()->getContent());
 
     ui->print("Player 1: " + p1Name + " and Player 2: " + p2Name + " ready to play.");
 }

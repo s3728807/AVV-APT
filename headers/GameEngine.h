@@ -38,6 +38,7 @@ namespace Azul
             int roundCounter;
             bool hasQuit;
             std::vector<std::string> gameTurns;
+            std::string tileBag;
     };
 };
 

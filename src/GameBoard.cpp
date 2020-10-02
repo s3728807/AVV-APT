@@ -23,12 +23,31 @@ void GameBoard::clearFloors()
 {
     for (int i = 0; i < 2; i++)
     {
-        playersList->head->subtractPoints(playersList->head->getFloor()->size());
+        playersList->head->subtractPoints( penalty() );
         playersList->head->getFloor()->emptyContainer();
         playersList->head = playersList->head->next;
     } 
 }
 
+int GameBoard::penalty()
+{
+    int i = 0;
+    int points = 0;
+    if (playersList->head->getFloor()->empty()) {
+        return points;
+    }
+    for (Tile t : playersList->head->getFloor()->getContent()) {
+        if (i < 2) {
+            points++;
+        } else if (i < 5) {
+            points += 2;
+        } else {
+            points += 3;
+        }
+        i++;
+    }
+    return points;
+}
 void GameBoard::patternLine2Wall()
 {
     int score = 0;
