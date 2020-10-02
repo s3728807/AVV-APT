@@ -23,10 +23,9 @@ void GameEngine::run() {
         //checks if factories are empty
         factoryCheck();
 
-        
         ui->print("");
         std::string output = "=== Start Round ";
-        output.append(std::to_string(roundCounter)).append(" ===");
+        output.append( std::to_string(roundCounter) ).append(" ===");
         ui->print(output);
 
         //checks to see if factories and dump are empty and a player has not quit
@@ -60,19 +59,19 @@ void GameEngine::run() {
 void GameEngine::winner()
 {
     std::string output = "The Winner is ";
-    if (board->getPlayers()->head->getPoints()>board->getPlayers()->head->next->getPoints())
+    if ( board->getPlayers()->head->getPoints()>board->getPlayers()->head->next->getPoints() ) 
     {
         output.append(board->getPlayers()->head->getName());
     }
-    else if (board->getPlayers()->head->getPoints()<board->getPlayers()->head->next->getPoints())
+    else if ( board->getPlayers()->head->getPoints()<board->getPlayers()->head->next->getPoints() )
     {
-        output.append(board->getPlayers()->head->next->getName());
+        output.append( board->getPlayers()->head->next->getName() );
     }
     else
     {
         output.append("no one");
     }
-    ui->print(output);
+    ui->print( output );
 }
 
 void GameEngine::endOfRound()
@@ -81,10 +80,10 @@ void GameEngine::endOfRound()
     ui->print("=== END OF ROUND ===");
 
     //assigns player who took First tile to have their turn at the start of the next round
-    board->getPlayers()->head->setTurn(board->getPlayers()->head->tookFirstDump());
-    board->getPlayers()->head->next->setTurn(board->getPlayers()->head->next->tookFirstDump());
-    board->getPlayers()->head->setFirstDump(false);
-    board->getPlayers()->head->next->setFirstDump(false);
+    board->getPlayers()->head->setTurn( board->getPlayers()->head->tookFirstDump() );
+    board->getPlayers()->head->next->setTurn( board->getPlayers()->head->next->tookFirstDump() );
+    board->getPlayers()->head->setFirstDump( false );
+    board->getPlayers()->head->next->setFirstDump( false );
 
     //moves tiles into wall if patternline is complete
     board->patternLine2Wall();
@@ -102,16 +101,16 @@ void GameEngine::printPlayerPoints()
         std::string output = "Player: ";
         output.append(board->getPlayers()->head->getName());
         output.append("\n Previous Points: ");
-        output.append(std::to_string(board->getPlayers()->head->getPoints()));
+        output.append( std::to_string(board->getPlayers()->head->getPoints()) );
         output.append("\n Points Gained: ");
-        output.append(std::to_string(board->getPlayers()->head->pointsGained()));
+        output.append( std::to_string(board->getPlayers()->head->pointsGained()) );
         output.append("\n Points Lost: ");
-        output.append(std::to_string(board->getPlayers()->head->pointsLost()));
-        board->getPlayers()->head->setPoints(board->getPlayers()->head->pointsGained());
-        board->getPlayers()->head->setPoints(board->getPlayers()->head->pointsLost());
+        output.append( std::to_string(board->getPlayers()->head->pointsLost()) );
+        board->getPlayers()->head->setPoints( board->getPlayers()->head->pointsGained() );
+        board->getPlayers()->head->setPoints( board->getPlayers()->head->pointsLost() );
         board->getPlayers()->head->resetPointsGainedLost();
         output.append("\n Total Points: ");
-        output.append(std::to_string(board->getPlayers()->head->getPoints()));
+        output.append( std::to_string( board->getPlayers()->head->getPoints() ) );
         ui->print(output);
         board->getPlayers()->head = board->getPlayers()->head->next;
     }
@@ -128,9 +127,10 @@ bool GameEngine::playerAction()
     {
         try 
         {
-            if ( validTurn(std::stoi(input.at(1)), input.at(2)[0], std::stoi(input.at(3))) )
+            if ( validTurn( std::stoi( input.at(1)), input.at(2)[0], std::stoi(input.at(3)) ) )
             {
-                board->factory2Mosaic(std::stoi(input.at(1)), char2Col(input.at(2)[0]), std::stoi(input.at(3)));
+                gameTurns.push_back(action);
+                board->factory2Mosaic( std::stoi(input.at(1)), char2Col(input.at(2)[0]), std::stoi(input.at(3)) );
                 ret = true;
             }
         }
@@ -143,7 +143,24 @@ bool GameEngine::playerAction()
     }
     else if ((input.at(0).compare("save")) == 0)
     {
-        //TODO
+        try
+        {
+            if (save(input.at(1)))
+            {
+                ui->print("Save was succesful!");
+            }
+            else
+            {
+                ui->print("Save was NOT succesful!");
+            }
+        }
+        catch(const std::exception& e)
+        {
+            ui->print("Save needs a filename");
+        }
+        
+        
+        
     }
     else if ((input.at(0).compare("quit")) == 0)
     {
@@ -155,6 +172,23 @@ bool GameEngine::playerAction()
     else
     {
         ui->print("Invalid input");
+    }
+
+    return ret;
+}
+
+bool GameEngine::save(std::string filename)
+{
+    bool ret = false;
+    std::ofstream file;
+    file.open( filename, std::ofstream::trunc );
+    if ( file.is_open() )
+    {
+        for (std::string s:gameTurns)
+        {
+            file << s + '\n';
+        }
+        ret = true;
     }
 
     return ret;
@@ -245,7 +279,8 @@ void GameEngine::introducePlayers()
         }
         
     }
-
+    gameTurns.push_back(p1Name);
+    gameTurns.push_back(p2Name);
     board->newGame(p1Name, p2Name);
 
     ui->print("Player 1: " + p1Name + " and Player 2: " + p2Name + " ready to play.");

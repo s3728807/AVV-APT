@@ -5,6 +5,7 @@
 #include "GameBoard.h"
 #include "UserInterface.h"
 #include <sstream>
+#include <fstream>
 
 namespace Azul
 {
@@ -28,6 +29,7 @@ namespace Azul
             void endOfRound();
             void printPlayerPoints();
             void winner();
+            bool save(std::string);
             std::vector<std::string> parseLine(std::string, char);
         
         private:
@@ -35,6 +37,7 @@ namespace Azul
             UserInterface *ui;
             int roundCounter;
             bool hasQuit;
+            std::vector<std::string> gameTurns;
     };
 };
 

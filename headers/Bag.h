@@ -14,7 +14,6 @@ namespace Azul
             ~Bag();
             
             void fill();
-            void shuffle(int);
         private:
     };
 };

@@ -10,7 +10,6 @@ GameBoard::GameBoard()
     factories = new Factory[6];
     bag = new Bag();
     srand(time(NULL));
-    random = rand()%INT32_MAX;
 }
 
 GameBoard::~GameBoard()
@@ -111,7 +110,6 @@ void GameBoard::newGame(std::string n1, std::string n2)
     playersList->head->next->setName(n2);
     playersList->head->next->getMosaic()->fillWall();
     bag->fill();
-    bag->shuffle(random);
 }
 
 void GameBoard::addFirstTile()
@@ -171,11 +169,6 @@ void GameBoard::setPlayers(LinkedList *p)
     playersList = p;
 }
 
-void GameBoard::setRandom(int r)
-{
-    random = r;
-}
-
 Bag *GameBoard::getBag()
 {
     return bag;
@@ -189,9 +182,4 @@ Factory *GameBoard::getFactories()
 LinkedList *GameBoard::getPlayers()
 {
     return playersList;
-}
-
-int GameBoard::getRandom()
-{
-    return random;
 }

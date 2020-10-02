@@ -17,12 +17,10 @@ namespace Azul
             LinkedList *getPlayers();
             Bag *getBag();
             Factory *getFactories();
-            int getRandom();
 
             void setPlayers(LinkedList*);
             void setBag(Bag*);
             void setFactories(Factory*);
-            void setRandom(int);
 
             void newGame(std::string, std::string);
             void refillBag(Container*);
@@ -39,7 +37,6 @@ namespace Azul
             LinkedList *playersList;
             Bag *bag;
             Factory *factories;
-            int random;
     };
 };
 #endif
