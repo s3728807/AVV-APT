@@ -50,6 +50,29 @@ void GameEngine::run() {
         endOfRound();
     }//entire game
 
+    if (!hasQuit)
+    {
+        winner();
+    }
+
+}
+
+void GameEngine::winner()
+{
+    std::string output = "The Winner is ";
+    if (board->getPlayers()->head->getPoints()>board->getPlayers()->head->next->getPoints())
+    {
+        output.append(board->getPlayers()->head->getName());
+    }
+    else if (board->getPlayers()->head->getPoints()<board->getPlayers()->head->next->getPoints())
+    {
+        output.append(board->getPlayers()->head->next->getName());
+    }
+    else
+    {
+        output.append("no one");
+    }
+    ui->print(output);
 }
 
 void GameEngine::endOfRound()
@@ -65,9 +88,33 @@ void GameEngine::endOfRound()
 
     //moves tiles into wall if patternline is complete
     board->patternLine2Wall();
-
+    
     board->clearFloors();
+
+    printPlayerPoints();
     roundCounter++; 
+}
+
+void GameEngine::printPlayerPoints()
+{
+    for (int i = 0; i<2; i++)
+    {
+        std::string output = "Player: ";
+        output.append(board->getPlayers()->head->getName());
+        output.append("\n Previous Points: ");
+        output.append(std::to_string(board->getPlayers()->head->getPoints()));
+        output.append("\n Points Gained: ");
+        output.append(std::to_string(board->getPlayers()->head->pointsGained()));
+        output.append("\n Points Lost: ");
+        output.append(std::to_string(board->getPlayers()->head->pointsLost()));
+        board->getPlayers()->head->setPoints(board->getPlayers()->head->pointsGained());
+        board->getPlayers()->head->setPoints(board->getPlayers()->head->pointsLost());
+        board->getPlayers()->head->resetPointsGainedLost();
+        output.append("\n Total Points: ");
+        output.append(std::to_string(board->getPlayers()->head->getPoints()));
+        ui->print(output);
+        board->getPlayers()->head = board->getPlayers()->head->next;
+    }
 }
 
 bool GameEngine::playerAction()
@@ -176,7 +223,7 @@ void GameEngine::introducePlayers()
     board = new GameBoard();
     roundCounter = 1;
     hasQuit = false;
-    
+
     ui->print("Starting a New Game");
     ui->print("Enter a name for player 1");
     std::string p1Name;
@@ -227,9 +274,6 @@ void GameEngine::printFactory()
     std::string output;
     ui->print("");
     ui->print("TURN FOR PLAYER: "+board->getPlayers()->head->getName());
-    output = "Points: ";
-    output.append(std::to_string(board->getPlayers()->head->getPoints()));
-    ui->print(output);
     ui->print("Factories: ");
 
     for (int x = 0; x<6; x++)

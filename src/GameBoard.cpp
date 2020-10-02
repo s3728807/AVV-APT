@@ -32,6 +32,7 @@ void GameBoard::clearFloors()
 
 void GameBoard::patternLine2Wall()
 {
+    int score = 0;
     for (int i = 0; i < 2; i++)
     {
         for (int p = 0; p < 5; p++)
@@ -40,7 +41,8 @@ void GameBoard::patternLine2Wall()
             {
                 //std::cout<<playersList->head->getName()<<"row: "<<p<<std::endl;
                 //std::cout<<"Color: "<<(playersList->head->getMosaic()->getPatternLine()+p)->getFront().getColor()<<std::endl;
-                playersList->head->getMosaic()->tile2Wall(p, (playersList->head->getMosaic()->getPatternLine()+p)->getFront().getColor());
+                score = playersList->head->getMosaic()->tile2Wall(p, (playersList->head->getMosaic()->getPatternLine()+p)->getFront().getColor());
+                playersList->head->addPoints(score);
                 (playersList->head->getMosaic()->getPatternLine()+p)->removeFront();
                 refillBag((playersList->head->getMosaic()->getPatternLine()+p));
             }

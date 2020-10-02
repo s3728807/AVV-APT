@@ -26,6 +26,8 @@ namespace Azul
             bool validColor(char);
             Colors char2Col(char);
             void endOfRound();
+            void printPlayerPoints();
+            void winner();
             std::vector<std::string> parseLine(std::string, char);
         
         private:

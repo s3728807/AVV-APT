@@ -17,14 +17,30 @@ Player::~Player()
   delete mosaic;
 }
 
+void Player::resetPointsGainedLost()
+{
+  pointsG = 0;
+  pointsL = 0;
+}
+
+int Player::pointsGained()
+{
+  return pointsG;
+}
+
+int Player::pointsLost()
+{
+  return pointsL;
+}
+
 void Player::addPoints(int p)
 {
-  points = points + p;
+  pointsG = pointsG + p;
 }
 
 void Player::subtractPoints(int p)
 {
-  points = points - p;
+  pointsL= pointsL - p;
 }
 
 void Player::setFloor(Floor *f)
@@ -49,7 +65,7 @@ void Player::setName(std::string n)
 
 void Player::setPoints(int p)
 {
-  points = p;
+  points = points + p;
 }
 
 void Player::setTurn(bool t)

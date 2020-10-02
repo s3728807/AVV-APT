@@ -27,16 +27,49 @@ Mosaic::~Mosaic()
     delete[] patternLine;
 }
 
-void Mosaic::tile2Wall(int r, Colors color)
+int Mosaic::tile2Wall(int r, Colors color)
 {
-
+    int score = 0;
     for (int c = 0; c < 5; c++)
     {
         if (wall[r][c].getColor() == color)
         {
             wall[r][c].setPlaced(true);
+            score = scoring(r,c);
         }
     }
+    return score;
+}
+
+int Mosaic::scoring(int row, int col)
+{
+    int total = 1;
+    int count = row;
+    while ((count-1)>=0 && wall[count-1][col].isPlaced())
+    {
+        total++;
+        count--;
+    }
+    count = row;
+    while ((count+1)<=4 && wall[count+1][col].isPlaced())
+    {
+        total++;
+        count++;
+    }
+    count = col;
+    while ((count-1)>=0 && wall[row][count-1].isPlaced())
+    {
+        total++;
+        count++;
+    }
+    count = col;
+    while ((count+1)<=4 && wall[row][count+1].isPlaced())
+    {
+        total++;
+        count++;
+    }
+
+    return total;
 }
 
 void Mosaic::tileToPatternLine(int p, Tile t)

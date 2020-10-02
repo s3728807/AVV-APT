@@ -16,10 +16,14 @@ namespace Azul
 
             std::string getName();
             int getPoints();
+            int getPointsGained();
+            int getPointsLost();
             Floor *getFloor();
             Mosaic *getMosaic();
             bool isTurn();
             bool tookFirstDump();
+            int pointsLost();
+            int pointsGained();
             
             void setName(std::string);
             void setPoints(int);
@@ -27,12 +31,15 @@ namespace Azul
             void setMosaic(Mosaic*);
             void setTurn(bool);
             void setFirstDump(bool);
+            void resetPointsGainedLost();
             void addPoints(int);
             void subtractPoints(int);
             
         private:
             std::string name;
             int points;
+            int pointsG;
+            int pointsL;
             Floor *floor;
             Mosaic *mosaic;
             bool turn;
